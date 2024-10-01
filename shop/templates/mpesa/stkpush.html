@@ -1,0 +1,86 @@
+{% extends 'mpesa/base.html' %}
+
+{% block title %}STK Push{% endblock %}
+
+{% block content %}
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Make a Payment</h2>
+        
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">
+                    Your Cart Total Is <b>ksh.<span id="totalPrice">0</span></b>
+                </li>
+            </ol>
+        </nav>
+
+        <form id="paymentForm" action="{% url 'stkpush' %}" method="POST" class="border p-4 rounded shadow">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="staticEmail2">Name</label>
+                <input type="text" class="form-control" id="staticEmail2" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">+254</span>
+                    </div>
+                    <input type="tel" class="form-control" id="inputPhone" name="phone" placeholder="Enter your phone number" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount (Ksh)</label>
+                <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter amount" required readonly>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Pay Now</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        // Initialize cart from local storage
+        let cart = JSON.parse(localStorage.getItem('cart')) || {};
+        let sum = 0;
+        let totalPrice = 0;
+
+        if ($.isEmptyObject(cart)) {
+            // If the cart is empty
+            $('#items').append('<p>Your cart is empty, please add some items to your cart before checking out!</p>');
+        } else {
+            // Calculate total price and item quantities
+            for (let item in cart) {
+                let name = cart[item][1];
+                let qty = cart[item][0];
+                let itemPrice = cart[item][2];
+                sum += qty;
+                totalPrice += qty * itemPrice;
+
+                let mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                                ${name}
+                                <span class="badge badge-primary badge-pill">${qty}</span>
+                            </li>`;
+                $('#items').append(mystr);
+            }
+            // Update total price in the display and input
+            document.getElementById('totalPrice').innerHTML = totalPrice;
+            document.getElementById('amount').value = totalPrice; // Set the amount input to the total
+        }
+
+        // Update the number of items in the cart
+        document.getElementById('cart').innerHTML = sum;
+
+        // Serialize cart to JSON for submission
+        $('#itemsJson').val(JSON.stringify(cart));
+
+        {% if thank %}
+        alert('Thanks for ordering with us. Your order is {{ id }}. Use it to track your order using our order tracker.');
+        localStorage.clear();
+        document.location = "/shop";
+        {% endif %}
+    </script>
+</body>
+{% endblock %}

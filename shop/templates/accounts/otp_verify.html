@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .otp-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 24px;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+        .otp-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            margin-top: 20px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Verify OTP</h2>
+        <form method="POST" onsubmit="combineOTPValues()">
+            {% csrf_token %}
+            <div class="otp-container">
+                <input type="text" class="otp-input" maxlength="1" id="digit1" oninput="moveToNext(this, 'digit2')">
+                <input type="text" class="otp-input" maxlength="1" id="digit2" oninput="moveToNext(this, 'digit3')">
+                <input type="text" class="otp-input" maxlength="1" id="digit3" oninput="moveToNext(this, 'digit4')">
+                <input type="text" class="otp-input" maxlength="1" id="digit4" oninput="moveToNext(this, 'digit5')">
+                <input type="text" class="otp-input" maxlength="1" id="digit5" oninput="moveToNext(this, 'digit6')">
+                <input type="text" class="otp-input" maxlength="1" id="digit6">
+            </div>
+            <input type="hidden" name="otp" id="otp-value">
+            <button type="submit">Verify</button>
+        </form>
+        <p>A 6-digit OTP has been sent to <strong>{{ email }}</strong>. Please enter it here.</p>
+    </div>
+
+    <script>
+        function moveToNext(current, nextFieldId) {
+            if (current.value.length === 1) {
+                document.getElementById(nextFieldId).focus();
+            }
+        }
+
+        function combineOTPValues() {
+            let otp = '';
+            for (let i = 1; i <= 6; i++) {
+                otp += document.getElementById('digit' + i).value;
+            }
+            document.getElementById('otp-value').value = otp;
+        }
+    </script>
+</body>
+</html>

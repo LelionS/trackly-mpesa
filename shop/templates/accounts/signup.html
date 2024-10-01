@@ -1,0 +1,93 @@
+<!-- myapp/templates/signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-image: url("{% static 'img/bg2.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .signup-container {
+            background: rgba( 235, 240, 240, 0.35 );
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            backdrop-filter: blur( 5px );
+            -webkit-backdrop-filter: blur( 5px );
+            border-radius: 10px;
+            padding: 20px; /* Reduced padding for a more compact look */
+            border-radius: 40px 10px 10px 10px;
+            display: flex;
+            flex-direction: row;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 370px;
+            width: 90%;
+            max-width: 800px;
+            overflow: hidden; /* Prevents overflow */
+        }
+        .signup-form {
+            flex: 1;
+            padding-right: 20px; /* Adjusted padding */
+        }
+        .signup-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .signup-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px; /* Reduced radius for a softer look */
+        }
+        .btn-custom {
+            background-color: #3e32eb;
+            color: white;
+            width: 100%;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #2345db;
+        }
+        @media (max-width: 768px) {
+            .signup-container {
+                flex-direction: column;
+                padding: 20px;
+                height: auto; /* Allow height to adjust automatically */
+            }
+            .signup-form {
+                padding-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-form">
+            <h2>Create an Account!</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Signup</button>
+            </form>
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        </div>
+        <div class="signup-image" style="padding-left: 84px;">
+            <img src="{% static 'img/login_img.jpg' %}" style="width: 480px; height: 430px; border-radius: 200px 5px 0px 0px; margin-left: 90px;">
+        </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

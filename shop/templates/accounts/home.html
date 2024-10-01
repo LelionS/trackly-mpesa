@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css"
+        integrity="sha512-/VYneElp5u4puMaIp/4ibGxlTd2MV3kuUIroR3NSQjS2h9XKQNebRQiyyoQKeiGE9mRdjSCIZf9pb7AVJ8DhCg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <title>Logistics</title>
+</head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600&display=swap&family=Poppins:wght@100;400;500;600;700;800;900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html{
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar{
+            display: none;
+        }
+
+        body{
+            min-height: 100vh;
+            width: 100vw;
+            font-family: "Jost", sans-serif;
+            overflow-x: hidden;
+        }
+
+        main{
+            height: 100%;
+            width: 100%;
+        }
+
+        .container{
+            height: 100%;
+            width: 100%;
+        }
+
+        nav{
+            position: fixed;
+            z-index: 100;
+            padding: 20px 30px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        nav a{
+            font-size: 14px;
+            color: #e4e4e4;
+            font-weight: 100;
+            text-decoration: none;
+            margin-left: 20px;
+            transition: 0.2s ease;
+        }
+
+        nav .logo{
+            font-size: 20px;
+            font-weight: 900;
+            color: #e4e4e4;
+            margin-right: auto;
+        }
+
+        .navigation:hover a{
+            filter: blur(1px);
+        }
+
+        .navigation a:hover{
+            filter: blur(0);
+        }
+        
+        section{
+            padding: 20px 30px;
+        }
+
+        .hero,.contact{
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle farthest-corner at 500px -200px,
+            rgba(8, 19, 66, 0.9) 0,
+            rgba(8, 19, 66, 0.9) 5%,
+            rgba(8, 19, 66, 0.5) 10%,
+            rgba(8, 19, 66, 0.6) 20%,
+            rgba(8, 19, 66, 0.6) 20%,
+            rgba(8, 19, 66, 0.8) 30%,
+            rgba(8, 19, 66,0.9) 40%,
+            #222 100%);
+            position: relative;
+        }
+
+        .hero::before,.contact::before{
+            content: "";
+            background: url(assets\image\background.jpg);
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+            z-index: 1;
+            mix-blend-mode: soft-light;
+        }
+
+        .hero .content{
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 span{
+            display: inline-block;
+            font-size: 170px;
+            font-weight: 900;
+            color: #e4e4e4;
+            text-shadow: 20px 20px 20px rgba(0,0,0,0.9);
+        }
+
+        .hero h5{
+            font-weight: lighter;
+            font-size: 14px;
+            color: #969595;
+            margin: 10px 0;
+            letter-spacing: 2px;
+            word-spacing: 5px;
+        }
+
+        .hero .left-sidebar{
+            position: absolute;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            left: 40px;
+            bottom: 80px;
+        }
+
+        .hero .left-sidebar a{
+            text-decoration: none;
+            color: #b1b1b1;
+            font-size: 20px;
+        }
+
+
+        .hero .right-sidebar{
+            position: absolute;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            right: 40px;
+            top: calc(100% - 140px);
+        }
+
+        .hero .right-sidebar span{
+            color: #e4e4e4;
+            transform: rotate(90deg);
+            font-weight: 100;
+            font-size: 14px;
+        }
+
+        .hero .right-sidebar .bar{
+            height: 0px;
+            width: 1px;
+            margin-top: 10px;
+            background: #e4e4e4;
+            animation: scroll 3s infinite linear;
+        }
+
+
+        @keyframes scroll{
+            0%{
+                height: 0;
+                opacity: 0;
+            }
+            40%{
+                height: 25px;
+                opacity: 0.7;
+            }
+            60%{
+                height: 25px;
+                opacity: 1;
+            }
+            100%{
+                height: 0;
+                opacity: 0;
+            }
+        }
+
+
+        .preloader{
+            position: absolute;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+        }
+
+        .preloader .stripe{
+            height: 100%;
+            width: 100%;
+            background: #49496062;
+        }
+
+        .projects{
+            height: calc(100vh + 100px);
+            width: 100%;
+            background: rgba(8, 19, 66, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #e4e4e4;
+            margin-top: -1px;
+            z-index: -1;
+        }
+
+        .projects h2 span, .contact h2 span{
+            display: inline-block;
+            font-size: 40px;
+            text-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+        }
+
+        .projects h5,.contact h5{
+            font-size: 14px;
+            font-weight: 100;
+            opacity: 0.6;
+            margin-top: 50px;
+        }
+
+        .swiper{
+            height: 600px;
+            width: 80%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper-wrapper{
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            filter: blur(2px);
+        }
+
+        .swiper-slide-active{
+            filter: blur(0);
+        }
+
+
+        .swiper-slide .slide-content{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-content img{
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            object-fit: cover;
+        }
+
+        .swiper-slide .text{
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: 0.3s ease;
+        }
+
+        .swiper-slide-active .text{
+            opacity: 1;
+        }
+
+        .swiper-slide .text .project-name{
+            font-size: 30px;
+            font-weight: 900;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+        }
+
+        .swiper-slide .text .project-description{
+            opacity: 0.7;
+            font-weight: 100;
+            font-size: 14px;
+        }
+
+        .swiper-slide .text a{
+            display: inline-block;
+            text-decoration: none;
+            padding: 15px 25px;
+            background: #222;
+            margin-top: 20px;
+            color: #fff;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+            font-weight: 100;
+            font-size: 14px;
+            letter-spacing: 2px;
+            word-spacing: 4px;
+        }
+
+        .contact{
+            height: 101vh;
+            flex-direction: row;
+            color: #e4e4e4;
+            gap: 20px;
+            z-index: 90;
+        }
+
+        .left-contact,.right-contact{
+            z-index: 100;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .left-contact p, .left-contact small{
+            word-spacing: 5px;
+            font-size: 14px;
+            font-weight: 100;
+            opacity: 0.7;
+            padding: 0 20px;
+            margin-top: 40px;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .left-contact h4{
+            font-size: 18px;
+            margin-top: 40px;
+        }
+
+        .left-contact small{
+            margin-top: 0;
+            letter-spacing: 1px;
+            word-spacing: 3px;
+        }
+
+        .right-contact form{
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            box-shadow: -10px 10px 10px rgba(0,0,0,0.5),
+                        5px -5px 10px rgba(0,0,0,0.1);
+            background: #22222240;            
+        }
+
+        .right-contact form input{
+            padding: 10px 20px;
+            margin-top: 30px;
+            width: 80%;
+            background: none;
+            border: none;
+            border-bottom: 1px solid #b1b1b1;
+            outline: none;
+            color: #e4e4e4;
+            font-family: "Jost", sans-serif;
+        }
+
+        .right-contact button{
+            border: none;
+            display: inline-block;
+            text-decoration: none;
+            padding: 15px 20px;
+            background: #22222240;
+            margin-top: 50px;
+            color: #e4e4e4;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+            font-weight: 100;
+            font-size: 14px;
+            letter-spacing: 2px;
+            word-spacing: 4px;
+            font-family: "Jost", sans-serif;
+            cursor: pointer;
+        }
+
+        .footer{
+            background-color: rgba(8, 19, 66, 0.9);
+            padding-block: 3rem;
+        }
+        .footer__container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer__copyright{
+            padding-left: 5%;
+            color: white;
+        }
+        
+        .footer__social-links{
+            display: flex;
+            column-gap: 1.25rem;
+            padding-right: 5%;
+        }
+        .footer__social-link{
+            color: #fff;
+            
+        }
+    </style>
+<body>
+    <!-- Preloader section with loading animation -->
+    <div class="preloader">
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+    </div>
+    <main class="main">
+        <nav>
+            <div class="logo">O<br/>D</div>
+            <!-- Navigation links -->
+            <div class="navigation">
+                <a href="#hero">Home</a> 
+                <a href="#projects">Services</a>
+                <a href="#contact">Contact</a>
+                <a href="/login">Join us</a>
+            </div>
+        </nav>
+        <!-- Main content sections -->
+        <div class="container">
+            <section class="hero">
+                <!-- Content with animated elements -->
+                <div class="content">
+                    <h5 style="margin-right: auto;">We are</h5>
+                    <h1><span>T</span><span>R</span><span>A</span><span>C</span><span>K</span><span>L</span><span>Y</span></h1>
+                    <h5 id="typing-text" style="margin-left: auto;"></h5>
+                </div>
+                 <!-- Left sidebar with social media links -->
+                <div class="left-sidebar">
+                    <a href="#"><i class="ri-github-line"></i></a>
+                    <a href="#"><i class="ri-linkedin-line"></i></a>
+                    <a href="#"><i class="ri-twitter-x-line"></i></a>
+                     <a href="#"><i class="ri-instagram-line"></i></a>
+                </div>
+                <!-- Right sidebar with scroll indicator -->
+                <div class="right-sidebar">
+                    <span>SCROLL</span>
+                    <div class="bar"></div>
+                </div>
+            </section>
+            <!-- Services section -->
+            <section class="projects" id="projects">
+                <h5>OUR</h5>
+                <h2><span>S</span></span><span>E</span><span>R</span><span>V</span><span>I</span><span>C</span><span>E</span><span>S</span>
+                </h2>
+                <!-- Swiper container for project slides -->
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <img src="{% static 'image/Warehousing.webp' %}"  alt=""> 
+                                <div class="text">
+                                    <div class="project-name">Warehousing</div>
+                                    <div class="project-description">Secure storage solutions for goods, ensuring efficient inventory management.</div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <img src="{% static 'image/distribution.webp' %}" alt="">
+                                <div class="text">
+                                    <div class="project-name">Distribution</div>
+                                    <div class="project-description">Efficient distribution networks ensuring timely delivery to end customers or retail outlets.</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <img src="{% static 'image/transportation.jpg' %}" alt="">
+                                <div class="text">
+                                    <div class="project-name">Transportation</div>
+                                    <div class="project-description">Reliable and timely delivery of goods via road, rail, air, or sea, tailored to client needs.</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <img src="{% static 'image/brokage.jpg'%}" alt="">
+                                <div class="text">
+                                    <div class="project-name">Customs Brokerage</div>
+                                    <div class="project-description">Expertise in navigating customs regulations for seamless international shipments.</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <img src="{% static 'image/freight.jpg' %}" alt="">
+                                <div class="text">
+                                    <div class="project-name">Freight Forwarding</div>
+                                    <div class="project-description">Coordinating the shipment of goods from origin to destination, managing logistics complexities.</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <img src="{% static 'image/technology.jpg' %}" alt="">
+                                <div class="text">
+                                    <div class="project-name">Technology Integration</div>
+                                    <div class="project-description">Utilizing technology for tracking, and real-time updates on shipments.</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="slide-content">
+                                <img src="{% static 'image/packaging.jpg' %}" alt="">
+                                <div class="text">
+                                    <div class="project-name">Packaging Solutions</div>
+                                    <div class="project-description">Customized packaging solutions to ensure goods arrive safely and in optimal condition.</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- Contact section -->
+            <section class="contact" id="contact">
+                <!-- About me section with personal information -->
+                <div class="left-contact">
+                    <h2><span>A</span><span>B</span><span>O</span><span>U</span><span>T</span>
+                    <h6>US</h6>
+                    </h2>
+                    <h4>Address</h4>
+                    <small><a href="https://www.google.com/maps/search/?api=1&query=42+Mombasa+Road%2C+Nairobi+Logistics+Center" style="color: aliceblue; text-decoration: none;" target="_blank">42 Mombasa Road, Nairobi Logistics Center</a>
+                    </small>
+                    
+                    <h4>Phone</h4>
+                    <a href="#" style="color: aliceblue; text-decoration: none;"><small>support tel no.</small></a>
+
+                    <h4>E-mail</h4>
+                    <small><a href="#" style="color: aliceblue; text-decoration: none;">info@logistics.co.ke</a></small>
+                </div>
+                <!-- Contact form with fields for user input -->
+                <div class="right-contact">
+
+                    <form action="https://formspree.io/f/xrbzgpww" method="POST">
+                        <h2><span>C</span><span>O</span><span>N</span><span>T</span><span>A</span><span>C</span><span>T</span>
+                            &nbsp; <span>F</span><span>O</span><span>R</span><span>M</span></h2>
+                        <input type="text" name="name"placeholder="Your name" required>
+                        <input type="tel" name="phone" placeholder="Your Phone Number" required>
+                        <input type="email" name="_replyto" placeholder="Your Email Address" required>
+                        <input type="text" name="Message"placeholder="Message" required>
+                        <button type="submit">SEND MESSAGE</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+        <footer class="footer">
+            <div class="footer__container container">
+                <p class="footer__copyright">© 2024 - Trackly Solutions Ltd.</p>
+        
+              <div class="footer__social-links">
+                <a href="#" class="footer__social-link">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="footer__social-link">
+                  <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="#" class="footer__social-link">
+                  <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                <a href="#" class="footer__social-link">
+                    <i class="fa-brands fa-instagram"></i>
+                  </a>
+              </div>
+        
+            </div>
+          </footer>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+        integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"
+        integrity="sha512-Ic9xkERjyZ1xgJ5svx3y0u3xrvfT/uPkV99LBwe68xjy/mGtO+4eURHZBW2xW4SZbFrF1Tf090XqB+EVgXnVjw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+     <!-- GSAP and Swiper initialization and animation code here -->
+    <script>
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        var swiper = new Swiper(".swiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            initialSlide: 2,
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 3,
+                slideShadows: false
+            },
+            loop: false,
+            breakpoints: {
+                640: {
+                    slidesPerView: 2
+                },
+                768: {
+                    slidesPerView: 2
+                },
+                1024: {
+                    slidesPerView: 3
+                },
+                1560: {
+                    slidesPerView: 3
+                }
+            }
+        });
+
+
+
+        gsap.to(".preloader .stripe", {
+            y: -1000,
+            stagger: 0.2,
+            ease: "power2.inOut",
+        })
+
+        gsap.to(".preloader", {
+            delay: 2,
+            display: "none"
+        })
+
+        gsap.from("nav", {
+            y: 50,
+            opacity: 0,
+            stagger: 0.1,
+            delay: 1.5,
+            ease: "power2.inOut",
+        })
+
+        gsap.from(".hero h1 span", {
+            y: 100,
+            opacity: 0,
+            stagger: 0.1,
+            delay: 1.5,
+            ease: "power2.inOut",
+        })
+
+        gsap.from(".hero h5", {
+            opacity: 0,
+            stagger: 0.1,
+            duration: 1,
+            delay: 2.5,
+            ease: "power2.inOut",
+        })
+
+        gsap.from(".hero .left-sidebar a", {
+            opacity: 0,
+            x: 100,
+            stagger: 0.1,
+            delay: 3.5,
+            ease: "power2.inOut",
+        })
+
+        gsap.from(".hero .right-sidebar", {
+            opacity: 0,
+            stagger: 0.1,
+            delay: 4.5,
+            ease: "power2.inOut",
+        })
+
+        ScrollTrigger.create({
+            trigger: ".projects",
+            animation: gsap.from(".projects h2 span", {
+                y: 50,
+                opacity: 0,
+                stagger: 0.05
+            }),
+            start: "top 50%",
+            end: "bottom top",
+        });
+        ScrollTrigger.create({
+            trigger: ".projects",
+            animation:
+                gsap.from(".projects .swiper-slide", {
+                    y: 200,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 1,
+                }),
+            start: "top 50%",
+            end: "bottom top",
+        });
+        ScrollTrigger.create({
+            trigger: ".contact",
+            animation:
+                gsap.from(".left-contact h2 span", {
+                    y: 50,
+                    opacity: 0,
+                    stagger: 0.05,
+                }),
+            start: "top 50%",
+            end: "bottom top",
+        });
+        ScrollTrigger.create({
+            trigger: ".contact",
+            animation:
+                gsap.from(".right-contact h2 span", {
+                    y: 50,
+                    opacity: 0,
+                    stagger: 0.05,
+                }),
+            start: "top 50%",
+            end: "bottom top",
+        });
+        ScrollTrigger.create({
+            trigger: ".contact",
+            animation:
+                gsap.from(".right-contact form input, .right-contact form button", {
+                    y: 50,
+                    opacity: 0,
+                    stagger: 0.05,
+                }),
+            start: "top 50%",
+            end: "bottom top",
+        });
+        ScrollTrigger.create({
+            trigger: ".contact",
+            animation:
+                gsap.from(".left-contact p, .left-contact h4, .left-contact small", {
+                    y: 50,
+                    opacity: 0,
+                    stagger: 0.05
+                }),
+            start: "top 50%",
+            end: "bottom top",
+        });
+    </script>
+    <script>
+        const textBlocks = [
+            "Where business Meets Innovation",
+            "Ecommerce",
+            "And",
+            "Order Tracking",
+            "Choose Us!"
+        ];
+
+        const typingElement = document.getElementById('typing-text');
+        let currentTextIndex = 0;
+
+        function typeWriter(text, i) {
+            if (i < text.length) {
+                typingElement.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(function() {
+                    typeWriter(text, i);
+                }, 50);  
+            } else {
+                setTimeout(function() {
+                    deleteText();
+                }, 500);  
+            }
+        }
+
+        function deleteText() {
+            if (typingElement.innerHTML.length > 0) {
+                typingElement.innerHTML = typingElement.innerHTML.slice(0, -1);
+                setTimeout(function() {
+                    deleteText();
+                }, 25);  
+            } else {
+                currentTextIndex = (currentTextIndex + 1) % textBlocks.length;
+                setTimeout(function() {
+                    typeWriter(textBlocks[currentTextIndex], 0);
+                }, 250);  
+            }
+        }
+
+      
+        typeWriter(textBlocks[currentTextIndex], 0);
+    </script>
+</body>
+
+</html>
